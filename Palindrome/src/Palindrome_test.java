@@ -1,4 +1,9 @@
-
+/*
+ * All Palindrome related test and solution.
+ * 
+ * Use static method in order to easy examine the answer
+ * 
+ */
 public class Palindrome_test 
 {		
 		// Constructor
@@ -8,10 +13,10 @@ public class Palindrome_test
     	}
 	    public String test_string;
 	    public static void main(String[] args)
-	    {
+	    {	
+	    	// String for tests:
+	    	
 	    	String test_string = "A man, a plan, a canal: Panama";
-	    	//Palindrome_test test_case = new Palindrome_test();
-	    	//test_case.test_string = "A man, a plan, a canal: Panama";
 		   
 	    	if(  isPalindrome(test_string) )
 	    		
@@ -19,12 +24,24 @@ public class Palindrome_test
 	    	else
 	    		System.out.println( test_string + " not a palindrome");
 	    }
+	    
+	   /* 125. Valid Palindrome (Solution 1)
+	    * Given a string, determine if it is a palindrome, 
+	    * considering only alphanumeric characters and ignoring cases.
+		*	For example,
+		* 	"A man, a plan, a canal: Panama" is a palindrome.
+		*		"race a car" is not a palindrome. 
+		*
+		* Idea: (1) if NULL string, return true;
+		* 		(2) if 
+	    */
 	   public static boolean isPalindrome(String s) 
-	   {
-	        if (s == null || s.length() == 0) 
-	        {
+	   {	
+		   	// If the string is null then return true
+	        if (s == null || s.length() == 0) {
 	            return true;
 	        }
+	        // 
 	        int front = 0;
 	        int end = s.length() - 1;
 	        while (front < end) 
@@ -51,8 +68,18 @@ public class Palindrome_test
 	        }
 	        return end <= front;   
 	   }
-	private static boolean isvalid(char charAt) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	   private static boolean isvalid(char c) {
+		   return Character.isLetter(c) || Character.isDigit(c);
+	   }
+	   /*
+	    * 125. Valid Palindrome (Solution 2)
+	    */
+	   public boolean isPalindrome2(String s) {
+		   	// filter out all non letter and non digits elements and formalize them into lower case
+	        String actual = s.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
+	        // reverse the string using string buffer
+	        String rev = new StringBuffer(actual).reverse().toString();
+	        // return comparison
+	        return actual.equals(rev);
+	    }
 }
