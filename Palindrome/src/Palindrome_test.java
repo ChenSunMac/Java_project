@@ -1,6 +1,7 @@
 /*
  * All Palindrome related test and solution.
- * 
+ * 125. Is Palindrome
+ * 9. Palindrome Number
  * Use static method in order to easy examine the answer
  * 
  */
