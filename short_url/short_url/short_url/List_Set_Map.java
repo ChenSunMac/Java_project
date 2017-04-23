@@ -4,11 +4,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
 public class List_Set_Map {
-
+	   static int count=0;
+	   public void increment()
+	   {
+	       count++;
+	   }
  public static void main(String[] args) {
    List<String> al = new ArrayList<String>();
    al.add("Chaitanya");
@@ -49,8 +54,22 @@ public class List_Set_Map {
     
    set.add(s3);  
     
-   System.out.println(set.size());
+   System.out.println(set.size()); // print out 2
    
+   // map--- <key,value>  (Object key, Object value)
+   HashMap<String, Integer> hashmap1;
+   hashmap1 = new HashMap<String, Integer>();
+   
+   // .put (key, value)
+   hashmap1.put("CS code",1);
+   hashmap1.put(s1, 2);
+   hashmap1.remove(s1);
+   // Object.get(Object key)
+   System.out.print(hashmap1.get("CS code") + "\n"); // print out 1
+   
+   final int MY_VAR=27;
+   System.out.println(MY_VAR);
+
    
    
  }
