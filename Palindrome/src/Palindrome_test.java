@@ -41,7 +41,6 @@ public class Palindrome_test
 		*
 		* Idea: Using front and end two pointers to compare:
 		* 		(1) if NULL string, return true;
-		* 		(2) if 
 	    */
 	   public static boolean isPalindrome(String s) 
 	   {	
@@ -49,7 +48,7 @@ public class Palindrome_test
 	        if (s == null || s.length() == 0) {
 	            return true;
 	        }
-	        // 
+	        // define two pointers front and end
 	        int front = 0;
 	        int end = s.length() - 1;
 	        while (front < end) 
