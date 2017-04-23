@@ -1,11 +1,3 @@
-/*
- * each short url corresponding to a decimal integer, this integer is auto increment id in SQL
- * If upper case and lower case letters are differentiated, then each character can represent 
- * a single digit within a number of base 62 (26 + 26 + 10). 
- * In order to form the key, a hash function can be made, 
- * or a random number generated so that key sequence is not predictable. 
- * Or users may propose their own keys.
- */
 package short_url;
 
 import java.util.HashMap;
@@ -21,9 +13,6 @@ public class Short_Url {
         COUNTER = 1;
         elements = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     }
-    
-    // input a url and return a shorter version
-    
     public String longToShort(String url) {
         String shorturl = base10ToBase62(COUNTER);
         ltos.put(url, COUNTER);
@@ -31,7 +20,6 @@ public class Short_Url {
         COUNTER++;
         return "http://tiny.url/" + shorturl;
     }
-    
     public String shortToLong(String url) {
         url = url.substring("http://tiny.url/".length());
         int n = base62ToBase10(url);
