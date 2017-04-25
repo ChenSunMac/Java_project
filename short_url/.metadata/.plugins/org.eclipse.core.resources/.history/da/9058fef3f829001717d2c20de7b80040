@@ -4,8 +4,6 @@ package test;
  * Reverse String test
  * 1. String Builder .reverse(), .toString() -> return a string;
  * 		O(n) time and space
- * 2. transform the string to a list of characters and swap values;
- * 		O(n) time and space
  */
 
 public class Junit_test {
@@ -13,7 +11,6 @@ public class Junit_test {
 	public static void main(String[] args) { 
 		String test = "abcdfef";
 		System.out.println(reverseString2(test));
-		System.out.println(reverseString1(test));
 	}
 	
 	public String concatenate(String s1, String s2){
