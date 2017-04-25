@@ -1,0 +1,16 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.junit.runners.JUnit4;
+
+public class Concatenate_Test {
+
+	@Test
+	public void test_concatenate_only_example() {
+		Junit test = new Junit();
+		
+	}
+
+}
