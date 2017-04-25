@@ -13,7 +13,9 @@ import java.util.Iterator;
  *  2. Hashmap allows one null key and any number of null values, Hashtable do not allow null key and null value;
  *  3. Hashmap is much faster and uses less memory than Hashtable as former is unsynchronized
  *  4. HashMap - Fail fast iterator; Hashtable - Fail safe iterator
+ *  fail fast iterator should be used only to detect bugs
  */
+
 
 public class Hash_map_table {
 	public static void main(String[] args) { 

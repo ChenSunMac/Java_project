@@ -309,3 +309,6 @@ Caused by: java.io.IOException: 远程主机强迫关闭了一个现有的连接。
 	at sun.nio.ch.SocketChannelImpl.write(Unknown Source) ~[na:1.8.0_131]
 	at org.eclipse.jetty.io.ChannelEndPoint.flush(ChannelEndPoint.java:177) ~[org.eclipse.jetty.io_9.3.9.v20160517.jar:9.3.9.v20160517]
 	... 59 common frames omitted
+2017-04-25 01:14:53,628 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@b7c4644{HTTP/1.1,[http/1.1]}{127.0.0.1:0}
+2017-04-25 01:15:32,091 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - Stopped o.e.j.s.ServletContextHandler@7a090fec{/help,null,UNAVAILABLE}
+2017-04-25 10:22:24,929 [Worker-1] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.

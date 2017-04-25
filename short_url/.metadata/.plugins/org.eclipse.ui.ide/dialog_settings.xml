@@ -3,4 +3,6 @@
 	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
 		<item value="C:\Users\Sun\Documents\GitHub\Java_project\short_url"/>
 	</list>
+	<section name="NewWizardAction">
+	</section>
 </section>
