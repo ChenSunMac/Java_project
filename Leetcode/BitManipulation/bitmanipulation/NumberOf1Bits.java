@@ -1,0 +1,28 @@
+package bitmanipulation;
+
+/*Write a function that takes an unsigned integer and returns the number of ¡¯1' bits it has 
+ * (also known as the Hamming weight).
+ * For example, the 32-bit integer "11" has binary representation 
+ * 00000000000000000000000000001011, so the function should return 3.
+*/
+
+public class NumberOf1Bits {
+	// Test main function
+	public static void main(String[] args)
+    {	
+		int test_number = 11; // must be unsigned number
+		System.out.println( test_number + " has " +  hammingWeight(test_number) + " 1s");
+    }
+	
+	public static int hammingWeight(int n){
+		int total_ones = 0;
+		while (n != 0){
+			// Use Bit And Operation to eliminate a 1 at each loop
+			n = n & (n - 1);
+			total_ones++;
+		}
+		return total_ones;
+	}
+	
+	
+}
