@@ -32,7 +32,9 @@ public class LinkList {
 		return headnode;
 	}
 	
-	// RECURSIVE METHOD: 
+	// Reverse a list from m to n (segmented reverse)
+	
+	
 	
 	
 	// Prints the list

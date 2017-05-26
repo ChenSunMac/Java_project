@@ -31,10 +31,6 @@ public class LinkList {
 		headnode = prev;         // after the iteration, prev pointer will store the headnode
 		return headnode;
 	}
-	
-	// RECURSIVE METHOD: 
-	
-	
 	// Prints the list
 	void printList(ListNode node) {
         while (node != null) {
@@ -43,7 +39,6 @@ public class LinkList {
         }
     }
 	
-
 	public static void main (String[] args){
 		LinkList list = new LinkList();
 		list.head = new ListNode(85);
