@@ -1,0 +1,17 @@
+package cs;
+/*
+ * A Link list structure with reverse linked list function and test bench
+ */
+
+public class LinkList {
+	static Node head;
+	static class Node{
+		int data;
+		Node next;
+		
+		Node(int d){
+			data = d;
+			next = null;
+		}
+	}
+}
