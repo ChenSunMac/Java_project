@@ -26,11 +26,9 @@ public class Percolation
 	//Constructor: create n-by-n grid, with all sites blocked
 	public Percolation(int n)
 	{
-		
 		if ( n < 1 ) {
             throw new IllegalArgumentException();
         }
-		gridLength = n;
 		int arraySize = n*n+2;
         isOpen = new boolean[arraySize]; 
         
@@ -62,86 +60,21 @@ public class Percolation
 	
 	
 	// Open site (row, col)
-	public    void open(int row, int col)
-	{
-		int siteIndex = siteIndex(row,col);
-        if (!isOpen[siteIndex])
-        {
-            /// to open a site, change boolean value, 
-        	//  and union with any adjacent open sites
-            isOpen[siteIndex] = true;
-
-            // before connecting to a neighbor, first check that site is not on an edge, and is open
-            if (col > 1 && isOpen(row,col-1))
-            {
-                int indexToLeft = siteIndex(row,col-1);
-                percolation.union(siteIndex, indexToLeft);
-                fullness.union(siteIndex, indexToLeft);
-            }
-            
-            if (col < gridLength && isOpen(row,col+1)) 
-            {
-                int indexToRight = siteIndex(row,col+1);
-                percolation.union(siteIndex, indexToRight);
-                fullness.union(siteIndex,indexToRight);
-            }
-            
-            if (row > 1 && isOpen(row - 1,col)) 
-            	// site is not top edge
-            {
-                int indexToTop = siteIndex(row - 1, col);
-                percolation.union(siteIndex, indexToTop);
-                fullness.union(siteIndex,indexToTop);
-            }
-            
-            if (row < gridLength && isOpen(row + 1,col)) 
-            	// site is not on bottom edge
-            {
-                int indexToBottom = siteIndex(row + 1,col);
-                percolation.union(siteIndex, indexToBottom);
-                fullness.union(siteIndex,indexToBottom);
-            }  
-    }  
-	};
+	public    void open(int row, int col) 
 	
 	
 	// Is site (row, col) open?
 	public boolean isOpen(int row, int col)  
-	{
-        int siteIndex = siteIndex(row,col);
-        return isOpen[siteIndex];
-	}
 	
 	// Is site (row, col) full?
 	public boolean isFull(int row, int col)  
-    {
-        int siteIndex = siteIndex(row , col);
-        //return (percolation.connected(virtualTopIndex,siteIndex) && isOpen[siteIndex]);
-        return (fullness.connected(virtualTopIndex,siteIndex) && isOpen[siteIndex]);
-    }  
+	
 	// number of open sites
-	public     int numberOfOpenSites() 
-	{	
-		int count = 0;
-		for (int i = 1; i <= gridLength * gridLength ; i++){
-			
-			if (isOpen[i] == true) {
-				count ++;
-			}
-		}
-		return count;
-	}      
+	public     int numberOfOpenSites()       
 	
 	// does the system percolate?
 	public boolean percolates()
-	{
-		if (gridLength>1) {
-            return percolation.connected(virtualTopIndex,virtualBottomIndex);
-        }
-        else {
-            return isOpen[siteIndex(1,1)];
-        }
-	}
+	
 	//helper function:
 	private int siteIndex(int i, int j)
     {
@@ -161,7 +94,7 @@ public class Percolation
     {
          throw new IndexOutOfBoundsException("row index i out of bounds");
     }
-    if (j>gridLength || j < 1)
+    if (j>gridLength || j<1)
     {
          throw new IndexOutOfBoundsException("column index j out of bounds");
     }
@@ -169,16 +102,5 @@ public class Percolation
 	
 	
 	// test client
-	public static void main(String[] args)   {
-        Percolation percolation = new Percolation(1);
-        StdOut.println(percolation.percolates());
-        percolation.open(1,1);
-        StdOut.println(percolation.percolates());
-        Percolation percolation2 = new Percolation(2);
-        StdOut.println(percolation2.percolates());
-        percolation2.open(1,1);
-        StdOut.println(percolation2.percolates());
-        percolation2.open(2,1);
-        StdOut.println(percolation2.percolates());
-	}
+	public static void main(String[] args)   
 }
