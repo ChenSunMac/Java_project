@@ -5,41 +5,41 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 
-public class Percolation 
-{	
+public class Percolation
+{
 	// The Length of the square grid
 	private int gridLength;
     // An boolean array is Open monitors all fields in the grid
     private boolean[] isOpen;
-    
+
     /// index of virtual site that is connected to entire top row, initializes to 0.
-    private int virtualTopIndex; 
+    private int virtualTopIndex;
     /// index of virtual site that is connected to entire bottom row, initializes to (N^2)+1
     private int virtualBottomIndex;
-    
+
     ///  percolation represents connectivity between sites. connected, open sites percolate to one another.
     private WeightedQuickUnionUF percolation;
     // quick union structure for tracking fullness without backwash.
     // similar to percolation above, but without bottom virtual site
     private WeightedQuickUnionUF fullness;
-    
+
 	//Constructor: create n-by-n grid, with all sites blocked
 	public Percolation(int n)
 	{
-		
+
 		if ( n < 1 ) {
             throw new IllegalArgumentException();
         }
 		gridLength = n;
 		int arraySize = n*n+2;
-        isOpen = new boolean[arraySize]; 
-        
+        isOpen = new boolean[arraySize];
+
         virtualTopIndex = 0;
         virtualBottomIndex = (n*n)+1;
-        
+
         isOpen[virtualTopIndex] = true; /// open virtual top site
         isOpen[virtualBottomIndex] = true; /// open virtual bottom site
-        
+
         percolation = new WeightedQuickUnionUF(arraySize);
         fullness = new WeightedQuickUnionUF(arraySize);
         for (int j = 1; j<=n; j++)
@@ -49,25 +49,25 @@ public class Percolation
             int topSiteIndex = siteIndex(i,j);
             percolation.union(virtualTopIndex, topSiteIndex);
             fullness.union(virtualTopIndex, topSiteIndex);
-            
+
             /// connect all bottom row sites to virtual bottom site
             i = n;
             int bottomSiteIndex = siteIndex(i,j);
             percolation.union(virtualBottomIndex, bottomSiteIndex);
-            
+
         }
 	};
-	
-	
-	
-	
+
+
+
+
 	// Open site (row, col)
 	public    void open(int row, int col)
 	{
 		int siteIndex = siteIndex(row,col);
         if (!isOpen[siteIndex])
         {
-            /// to open a site, change boolean value, 
+            /// to open a site, change boolean value,
         	//  and union with any adjacent open sites
             isOpen[siteIndex] = true;
 
@@ -78,60 +78,60 @@ public class Percolation
                 percolation.union(siteIndex, indexToLeft);
                 fullness.union(siteIndex, indexToLeft);
             }
-            
-            if (col < gridLength && isOpen(row,col+1)) 
+
+            if (col < gridLength && isOpen(row,col+1))
             {
                 int indexToRight = siteIndex(row,col+1);
                 percolation.union(siteIndex, indexToRight);
                 fullness.union(siteIndex,indexToRight);
             }
-            
-            if (row > 1 && isOpen(row - 1,col)) 
+
+            if (row > 1 && isOpen(row - 1,col))
             	// site is not top edge
             {
                 int indexToTop = siteIndex(row - 1, col);
                 percolation.union(siteIndex, indexToTop);
                 fullness.union(siteIndex,indexToTop);
             }
-            
-            if (row < gridLength && isOpen(row + 1,col)) 
+
+            if (row < gridLength && isOpen(row + 1,col))
             	// site is not on bottom edge
             {
                 int indexToBottom = siteIndex(row + 1,col);
                 percolation.union(siteIndex, indexToBottom);
                 fullness.union(siteIndex,indexToBottom);
-            }  
-    }  
+            }
+    }
 	};
-	
-	
+
+
 	// Is site (row, col) open?
-	public boolean isOpen(int row, int col)  
+	public boolean isOpen(int row, int col)
 	{
         int siteIndex = siteIndex(row,col);
         return isOpen[siteIndex];
 	}
-	
+
 	// Is site (row, col) full?
-	public boolean isFull(int row, int col)  
+	public boolean isFull(int row, int col)
     {
         int siteIndex = siteIndex(row , col);
         //return (percolation.connected(virtualTopIndex,siteIndex) && isOpen[siteIndex]);
         return (fullness.connected(virtualTopIndex,siteIndex) && isOpen[siteIndex]);
-    }  
+    }
 	// number of open sites
-	public     int numberOfOpenSites() 
-	{	
+	public     int numberOfOpenSites()
+	{
 		int count = 0;
 		for (int i = 1; i <= gridLength * gridLength ; i++){
-			
+
 			if (isOpen[i] == true) {
 				count ++;
 			}
 		}
 		return count;
-	}      
-	
+	}
+
 	// does the system percolate?
 	public boolean percolates()
 	{
@@ -150,10 +150,10 @@ public class Percolation
         int y = i;
         return (y-1)*gridLength+(x);
     }
-	
+
 	/*
-     * By convention, the indices i and j are integers between 1 and N, where (1, 1) is the upper-left site: 
-     * Throw a java.lang.IndexOutOfBoundsException if either i or j is outside this range. 
+     * By convention, the indices i and j are integers between 1 and N, where (1, 1) is the upper-left site:
+     * Throw a java.lang.IndexOutOfBoundsException if either i or j is outside this range.
      */
     private void checkBounds(int i, int j)
     {
@@ -166,8 +166,8 @@ public class Percolation
          throw new IndexOutOfBoundsException("column index j out of bounds");
     }
     }
-	
-	
+
+
 	// test client
 	public static void main(String[] args)   {
         Percolation percolation = new Percolation(1);
