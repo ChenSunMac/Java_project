@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<html ng-app>
+<head>
+  <script src = "Scripts/angular.min.js"></script>
+
+</head>
+
+<body>
+  <div>
+    {{['David','padm','sara'][2]}}
+  </div>
+  40 + 50 = {{40 + 50}}
+
+
+</html>
