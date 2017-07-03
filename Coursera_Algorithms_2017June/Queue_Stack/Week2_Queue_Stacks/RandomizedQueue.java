@@ -1,168 +1,146 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
-
+/** RandomizedQueue is a generic array-implemented queue that
+ * will dequeue items at random. It will also iterate at random. */
 public class RandomizedQueue<Item> implements Iterable<Item> {
+	
+	private Item[] queue;
+	private int size;
+	
+	/** Constructor to create a new randomised queue. */
+	public RandomizedQueue() {
+		int defaultSize = 1;
+		
+		this.queue = (Item[]) new Object[defaultSize];
+		this.size = 0;
+	}
+	
+	/** Returns true if the queue is empty. */
+	public boolean isEmpty() {
+		return (this.size == 0);
+	}
+	
+	/** Returns the size of the queue. */
+	public int size() {
+		return this.size;
+	}
+	
+	/** Adds a new item to the queue. */
+	public void enqueue(Item item) {
+		if (item == null) {
+			throw new NullPointerException("Cannot enqueue null objects.");
+		}
+		
+		if (this.size == queue.length) {
+			Item[] resizedQueue = (Item[]) new Object[queue.length * 2];
+			
+			for(int i = 0; i < queue.length; i++) {
+				resizedQueue[i] = queue[i];
+			}
+			
+			this.queue = resizedQueue;
+		}
+		
+		queue[size] = item;
+		
+		this.size++;
+	}
+	
+	/** Removes and returns an item at random from the queue. */
+	public Item dequeue() {
+		if (isEmpty()) {
+			throw new NoSuchElementException("Queue is currently empty.");
+		}
+		
+		int rand = getRandomOccupiedIndex();
+		Item dequeued = queue[rand];
+		
+		this.size--;
+		
+		queue[rand] = queue[this.size];
+		queue[this.size] = null;
+		
+		if (this.queue.length > 4 && this.size <= queue.length / 4) {
+			Item [] resizedQueue = (Item[]) new Object[queue.length / 2];
+			
+			for(int i = 0; i < this.size; i++) {
+				resizedQueue[i] = queue[i];
+			}
+			
+			this.queue = resizedQueue;
+		}
+		
+		return dequeued;
+	}
+	
+	/** Returns an item at random without deleting it. */
+	public Item sample() {
+		if (isEmpty()) {
+			throw new NoSuchElementException("Queue is currently empty.");
+		}
+		
+		return queue[getRandomOccupiedIndex()];
+	}
+	
+	/** Returns an integer of a random index which is not null. */
+	private int getRandomOccupiedIndex() {
+		while(true) {
+			int rand = StdRandom.uniform(this.size);
+			if(queue[rand] != null) {
+				return rand;
+			}
+		}
+	}
+	
+	/** Returns an iterator object to allow random iteration through queue. */
+	public Iterator<Item> iterator() {
+		return new ListIterator(queue, size);
+	}
+	
+	private class ListIterator implements Iterator<Item> {
+		
+		private Item[] iteratorQueue;
+		private int iteratorIndex = 0;
+		
+		public ListIterator(Item[] queue, int size) {
+			
+			iteratorQueue = (Item[]) new Object[size];
+			
+			//Copy items into iterator queue
+			for(int i = 0; i < iteratorQueue.length; i++) {
+				iteratorQueue[i] = queue[i];
+			}
+			
+			//Knuth shuffle the iterator queue
+			for(int j = 1; j < iteratorQueue.length; j++) {
+				int swapIndex = StdRandom.uniform(j + 1);
+				
+				Item temp = iteratorQueue[j];
+				iteratorQueue[j] = iteratorQueue[swapIndex];
+				iteratorQueue[swapIndex] = temp;
+			}
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return (iteratorIndex < iteratorQueue.length);
+		}
 
-    private Item[] array; // array of items in Deque
-    private int N; // count of items in Deque
+		@Override
+		public Item next() {
+			if(!hasNext()) {
+				throw new NoSuchElementException("No more objects to iterate through");
+			}
+			
+			Item item = iteratorQueue[iteratorIndex];
+			iteratorIndex++;
+			return item;
+		}
 
-    // construct an empty randomized queue
-    public RandomizedQueue() {
-        array = (Item[])new Object[2];
-        N = 0;
-    }
-
-    // is the queue empty?
-    public boolean isEmpty() {
-        return (N==0);
-    }
-
-    // return the number of items on the queue
-    public int size() {
-        return N;
-    }
-
-    // resize the underlying array holding the elements
-    private void resize(int capacity) {
-        assert capacity >= N;
-        Item[] temp = (Item[]) new Object[capacity];
-        for (int i = 0; i < N; i++) {
-            temp[i] = array[i];
-        }
-        array = temp;
-    }
-
-    // add the item
-    public void enqueue(Item item) {
-        if (item == null) {
-            throw new NullPointerException();
-        }
-        if (N == array.length) {
-            resize(array.length*2);
-        }
-        array[N++] = item;
-    }
-
-    // delete and return a random item
-    public Item dequeue() {
-        if (isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        int randomIndex = StdRandom.uniform(N);
-        Item item = array[randomIndex];
-        array[randomIndex] = array[N-1];
-        array[N-1] = null;
-        N--;
-        if ( N > 0 && N == array.length/4 ) {
-            resize(array.length/2);
-        }
-        return item;
-    }
-
-    // return (but do not delete) a random item
-    public Item sample() {
-        if (isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        int randomIndex = StdRandom.uniform(N);
-        Item item = array[randomIndex];
-        return item;
-    }
-
-    private String AXCToString() {
-        StringBuilder s = new StringBuilder();
-        for (Item item : this)
-            s.append(item + " ");
-        return s.toString();
-    }
-
-    // return an independent iterator over items in random order
-    public Iterator<Item> iterator() {
-        return new RandomizedArrayIterator();
-    }
-
-    private class RandomizedArrayIterator implements Iterator<Item> {
-
-        private int copiedN;
-        private Item[] copiedArray;
-
-        public RandomizedArrayIterator() {
-            copiedArray = (Item[]) new Object[N];
-            for (int i = 0; i < N; i++) {
-                copiedArray[i] = array[i];
-            }
-            copiedN = N;
-        }
-
-
-        public boolean hasNext()     {
-            return copiedN>0;
-        }
-        public void remove()         { throw new UnsupportedOperationException();  }
-
-        public Item next() {
-            if (!hasNext()) throw new NoSuchElementException();
-            int randomIndex = StdRandom.uniform(copiedN);
-            Item item = copiedArray[randomIndex];
-            copiedArray[randomIndex] = copiedArray[copiedN-1];
-            copiedArray[copiedN-1] = null;
-            copiedN--;
-            return item;
-        }
-
-    }
-
-    // unit testing
-    public static void main(String[] args) {
-        RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
-        queue.enqueue(1);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        queue.enqueue(2);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        queue.enqueue(3);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        queue.enqueue(4);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        queue.enqueue(5);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        queue.enqueue(6);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        queue.enqueue(7);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        queue.enqueue(8);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        queue.enqueue(9);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        queue.enqueue(10);
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.dequeue());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.dequeue());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.dequeue());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.dequeue());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.dequeue());
-        StdOut.println(queue.AXCToString());
-        StdOut.println(queue.AXCToString());
-
-
-    }
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException("Remove method not supported");
+		}
+	}
 }
